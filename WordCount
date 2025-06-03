@@ -1,0 +1,14 @@
+from pyspark import SparkContext
+
+sc= SparkContext("local[*]","Spark-Program")
+
+fileread = sc.textFile("/Users/lakshmirajendran/Desktop/data.txt")
+
+flattenWord = fileread.flatMap(lambda x: x.split(" ") )
+
+convertKeyValue = flattenWord.map(lambda x: (x,1))
+
+reducefor1 = convertKeyValue.reduceByKey(lambda x,y: x+y)
+
+for i in reducefor1.collect():
+    print(i)
